@@ -17,9 +17,9 @@ public class SinhVienRepository {
         return session.createQuery("FROM SinhVien sv").list();
     }
 
-    public static void main(String[] args) {
-        SinhVienRepository sinhVienRepository = new SinhVienRepository();
-        List<SinhVien> danhSach = sinhVienRepository.getAll();
-        danhSach.forEach( sv -> System.out.println(sv.getTen()));
-    }
+//    public static void main(String[] args) {
+//        SinhVienRepository sinhVienRepository = new SinhVienRepository();
+//        List<SinhVien> danhSach = sinhVienRepository.getAll();
+//        danhSach.forEach( sv -> System.out.println(sv.getTen()));
+//    }
 }
