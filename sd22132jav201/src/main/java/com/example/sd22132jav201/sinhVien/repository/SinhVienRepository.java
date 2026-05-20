@@ -17,9 +17,40 @@ public class SinhVienRepository {
         return session.createQuery("FROM SinhVien sv").list(); // JPQL
     }
 
-//    public static void main(String[] args) {
-//        SinhVienRepository svrp = new SinhVienRepository();
-//        List<SinhVien> danhSach = svrp.getAll();
-//        danhSach.forEach( sv -> System.out.println(sv.getTen()));
-//    }
+    public SinhVien getById(Integer id) {
+        return session.find(SinhVien.class, id);
+    }
+
+    public void themSinhVien(SinhVien sinhVien) {
+        try {
+            session.getTransaction().begin();
+            session.save(sinhVien);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void suaSinhVien(SinhVien sinhVien) {
+        try {
+            session.getTransaction().begin();
+            session.merge(sinhVien);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+        }
+    }
+
+    public void xoaSinhVien(Integer id) {
+        try {
+            session.getTransaction().begin();
+            session.delete(this.getById(id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            e.printStackTrace();
+        }
+    }
 }
