@@ -12,6 +12,17 @@
     <title>Title</title>
 </head>
 <body>
+    Them sinh vien:
+    <form action="/sinh-vien/them" method="post">
+        Ten: <input type="text" name="ten"> <br>
+        Tuoi: <input type="text" name="tuoi"> <br>
+        Gioi tinh:
+            Nam: <input type="radio" name="gioiTinh" value="false">
+            Nu: <input type="radio" name="gioiTinh" value="true">
+        <br>
+        <button>Save</button>
+    </form>
+    <br>
     Bang thong tin:
     <table>
         <thead>
@@ -20,6 +31,7 @@
                 <th>Ten</th>
                 <th>Tuoi</th>
                 <th>Gioi tinh</th>
+                <th>Hanh dong</th>
             </tr>
         </thead>
         <tbody>
@@ -28,7 +40,11 @@
                     <td>${sv.id}</td>
                     <td>${sv.ten}</td>
                     <td>${sv.tuoi}</td>
-                    <td>${sv.gioiTinh}</td>
+                    <td>${sv.gioiTinh == "false" ? "Nam" : "Nu"}</td>
+                    <td>
+                        <a href="/sinh-vien/view-update?id=${sv.id}">View update</a>
+                        <a href="/sinh-vien/xoa?id=${sv.id}">Xoa</a>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
