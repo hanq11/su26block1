@@ -1,5 +1,6 @@
 package com.example.sd22131jav201.sinhVien.controller;
 
+import com.example.sd22131jav201.sinhVien.entity.SinhVien;
 import com.example.sd22131jav201.sinhVien.repository.SinhVienRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,11 +24,38 @@ public class SinhVienController extends HttpServlet {
         String uri = req.getRequestURI();
         if(uri.contains("hien-thi")) {
             hienThi(req, resp);
+        } else if(uri.contains("view-update")) {
+            viewUpdate(req, resp);
         }
+    }
+
+    private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        req.setAttribute("sv", sinhVienRepository.getById(id));
+        req.getRequestDispatcher("/sinhVien/view-update.jsp").forward(req, resp);
     }
 
     private void hienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("listSinhVien", sinhVienRepository.getAll());
         req.getRequestDispatcher("/sinhVien/hien-thi.jsp").forward(req, resp);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uri = req.getRequestURI();
+        if(uri.contains("them")) {
+            themSinhVien(req, resp);
+        }
+    }
+
+    private void themSinhVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String ten = req.getParameter("ten");
+        Integer tuoi = Integer.valueOf(req.getParameter("tuoi"));
+        Boolean gioiTinh = Boolean.valueOf(req.getParameter("gioiTinh"));
+
+        SinhVien sinhVien = new SinhVien(null, ten, tuoi, gioiTinh);
+        sinhVienRepository.themSinhVien(sinhVien);
+        // Sử dụng sendRedirect cho các phương thức thay đổi csdl - thêm, sửa và xóa
+        resp.sendRedirect("/sinh-vien/hien-thi");
     }
 }
