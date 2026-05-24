@@ -26,7 +26,16 @@ public class SinhVienController extends HttpServlet {
             hienThi(req, resp);
         } else if(uri.contains("view-update")) {
             viewUpdate(req, resp);
+        } else if(uri.contains("xoa")) {
+            xoaSinhVien(req, resp);
         }
+    }
+
+    private void xoaSinhVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        sinhVienRepository.xoaSinhVien(id);
+        // Sử dụng sendRedirect cho các phương thức thay đổi csdl - thêm, sửa và xóa
+        resp.sendRedirect("/sinh-vien/hien-thi");
     }
 
     private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -45,7 +54,22 @@ public class SinhVienController extends HttpServlet {
         String uri = req.getRequestURI();
         if(uri.contains("them")) {
             themSinhVien(req, resp);
+        } else if(uri.contains("sua")) {
+            suaSinhVien(req, resp);
         }
+    }
+
+    private void suaSinhVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        String ten = req.getParameter("ten");
+        Integer tuoi = Integer.valueOf(req.getParameter("tuoi"));
+        Boolean gioiTinh = Boolean.valueOf(req.getParameter("gioiTinh"));
+
+        SinhVien sinhVien = new SinhVien(id, ten, tuoi, gioiTinh);
+        sinhVienRepository.suaSinhVien(sinhVien);
+        // Sử dụng sendRedirect cho các phương thức thay đổi csdl - thêm, sửa và xóa
+        resp.sendRedirect("/sinh-vien/hien-thi");
+
     }
 
     private void themSinhVien(HttpServletRequest req, HttpServletResponse resp) throws IOException {
