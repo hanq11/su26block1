@@ -1,0 +1,41 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%--
+  Created by IntelliJ IDEA.
+  User: lovep
+  Date: 5/29/2026
+  Time: 8:58 AM
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
+<head>
+    <title>Title</title>
+</head>
+<body>
+    Bang thong tin
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Ten bac si</th>
+                <th>Tuoi</th>
+                <th>Gioi tinh</th>
+                <th>Ten benh vien</th>
+                <th>Dia chi benh vien</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${listBacSi}" var="bs">
+                <tr>
+                    <td>${bs.id}</td>
+                    <td>${bs.tenBacSi}</td>
+                    <td>${bs.tuoi}</td>
+                    <td>${bs.gioiTinh == "false" ? "Nam" : "Nu"}</td>
+                    <td>${bs.benhVien.tenBenhVien}</td>
+                    <td>${bs.benhVien.diaChi}</td>
+                </tr>
+            </c:forEach>
+        </tbody>
+    </table>
+</body>
+</html>
