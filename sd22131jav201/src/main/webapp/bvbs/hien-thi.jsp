@@ -12,6 +12,23 @@
     <title>Title</title>
 </head>
 <body>
+    Them bac si:
+    <form action="/bac-si/them" method="post">
+        Ten bac si: <input type="text" name="tenBacSi"> <br>
+        Tuoi: <input type="text" name="tuoi"> <br>
+        Gioi tinh:
+        Nam: <input type="radio" value="false" name="gioiTinh">
+        Nu: <input type="radio" value="true" name="gioiTinh"> <br>
+        Benh vien:
+        <select name="benhVien">
+            <c:forEach items="${listBenhVien}" var="bv">
+                <option value="${bv.id}" label="${bv.tenBenhVien}"></option>
+            </c:forEach>
+        </select>
+        <br>
+        <button>Save</button>
+    </form>
+    <br>
     Bang thong tin:
     <table>
         <tr>
