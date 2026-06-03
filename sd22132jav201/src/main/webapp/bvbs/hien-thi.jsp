@@ -39,6 +39,7 @@
                 <th>Gioi tinh</th>
                 <th>Ten benh vien</th>
                 <th>Dia chi benh vien</th>
+                <th>Hanh dong</th>
             </tr>
         </thead>
         <tbody>
@@ -50,6 +51,10 @@
                     <td>${bs.gioiTinh == "false" ? "Nam" : "Nu"}</td>
                     <td>${bs.benhVien.tenBenhVien}</td>
                     <td>${bs.benhVien.diaChi}</td>
+                    <td>
+                        <a href="/bac-si/view-update?id=${bs.id}">View update</a>
+                        <a href="/bac-si/xoa?id=${bs.id}">Xoa</a>
+                    </td>
                 </tr>
             </c:forEach>
         </tbody>
