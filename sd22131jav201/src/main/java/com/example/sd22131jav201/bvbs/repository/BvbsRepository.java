@@ -36,4 +36,30 @@ public class BvbsRepository {
             session.getTransaction().rollback();
         }
     }
+
+    public BacSi getById(Integer id) {
+        return session.find(BacSi.class, id);
+    }
+
+    public void suaBacSi(BacSi bacSi) {
+        try {
+            session.getTransaction().begin();
+            session.merge(bacSi);
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
+
+    public void xoaBacSi(Integer id) {
+        try {
+            session.getTransaction().begin();
+            session.delete(this.getById(id));
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            session.getTransaction().rollback();
+        }
+    }
 }

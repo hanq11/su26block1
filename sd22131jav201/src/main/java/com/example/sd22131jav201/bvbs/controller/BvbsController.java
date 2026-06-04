@@ -26,7 +26,24 @@ public class BvbsController extends HttpServlet {
         String uri = req.getRequestURI();
         if(uri.contains("hien-thi")) {
             hienThi(req, resp);
+        } else if(uri.contains("view-update")) {
+            viewUpdate(req, resp);
+        } else if(uri.contains("xoa")) {
+            xoaBacSi(req, resp);
         }
+    }
+
+    private void xoaBacSi(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        bvbsRepository.xoaBacSi(id);
+        resp.sendRedirect("/bac-si/hien-thi");
+    }
+
+    private void viewUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        req.setAttribute("listBenhVien", bvbsRepository.getAllBenhVien());
+        req.setAttribute("bacSi", bvbsRepository.getById(id));
+        req.getRequestDispatcher("/bvbs/view-update.jsp").forward(req, resp);
     }
 
     private void hienThi(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -40,7 +57,24 @@ public class BvbsController extends HttpServlet {
         String uri = req.getRequestURI();
         if(uri.contains("them")) {
             themBacSi(req, resp);
+        } else if(uri.contains("sua")) {
+            suaBacSi(req, resp);
         }
+    }
+
+    private void suaBacSi(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        Integer id = Integer.valueOf(req.getParameter("id"));
+        String tenBacSi = req.getParameter("tenBacSi");
+        Integer tuoi = Integer.valueOf(req.getParameter("tuoi"));
+        Boolean gioiTinh = Boolean.valueOf(req.getParameter("gioiTinh"));
+
+        Integer idBenhVien = Integer.valueOf(req.getParameter("benhVien"));
+        BenhVien benhVien = bvbsRepository.getBenhVienById(idBenhVien);
+
+        BacSi bacSi = new BacSi(id, tenBacSi, tuoi, gioiTinh, benhVien);
+        bvbsRepository.suaBacSi(bacSi);
+
+        resp.sendRedirect("/bac-si/hien-thi");
     }
 
     private void themBacSi(HttpServletRequest req, HttpServletResponse resp) throws IOException {
