@@ -4,6 +4,7 @@ import com.example.sd22132jav201.bvbs.entity.BacSi;
 import com.example.sd22132jav201.bvbs.entity.BenhVien;
 import com.example.sd22132jav201.bvbs.util.HibernateConfigBvbs;
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -61,5 +62,18 @@ public class BacSiRepository {
             e.printStackTrace();
             session.getTransaction().rollback();
         }
+    }
+
+    public List<BacSi> timKiemTheoTen(String tenTimKiem) {
+        Query query = session.createQuery("FROM BacSi bs WHERE bs.tenBacSi LIKE :tenBacSi");
+        query.setParameter("tenBacSi", "%" + tenTimKiem + "%");
+        return query.list();
+    }
+
+    public List<BacSi> phanTrang(Integer page, int size) {
+        Query query = session.createQuery("FROM BacSi bs");
+        query.setFirstResult(page * size);
+        query.setMaxResults(size);
+        return query.list();
     }
 }

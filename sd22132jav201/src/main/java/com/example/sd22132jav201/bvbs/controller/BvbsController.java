@@ -8,7 +8,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.hibernate.id.IntegralDataTypeHolder;
 
 import java.io.IOException;
 
@@ -17,7 +16,9 @@ import java.io.IOException;
         "/bac-si/view-update", // GET
         "/bac-si/them", // POST
         "/bac-si/sua", // POST
-        "/bac-si/xoa" // GET
+        "/bac-si/xoa", // GET
+        "/bac-si/tim-kiem", // GET
+        "/bac-si/phan-trang"
 })
 public class BvbsController extends HttpServlet {
     BacSiRepository bacSiRepository = new BacSiRepository();
@@ -31,7 +32,30 @@ public class BvbsController extends HttpServlet {
             viewUpdate(req, resp);
         } else if(uri.contains("xoa")) {
             xoaBacSi(req, resp);
+        } else if(uri.contains("tim-kiem")) {
+            timKiem(req, resp);
+        } else if(uri.contains("phan-trang")) {
+            phanTrang(req, resp);
         }
+    }
+
+    private void phanTrang(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int size = 2;
+        Integer page = 0;
+        if(req.getParameter("page") != null) {
+            page = Integer.valueOf(req.getParameter("page"));
+        }
+        req.setAttribute("listBacSi", bacSiRepository.phanTrang(page, size));
+        req.setAttribute("listBenhVien", bacSiRepository.getAllBenhVien());
+        req.setAttribute("page", page);
+        req.getRequestDispatcher("/bvbs/hien-thi.jsp").forward(req, resp);
+    }
+
+    private void timKiem(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tenBacSi = req.getParameter("tenBacSi");
+        req.setAttribute("listBacSi", bacSiRepository.timKiemTheoTen(tenBacSi));
+        req.setAttribute("listBenhVien", bacSiRepository.getAllBenhVien());
+        req.getRequestDispatcher("/bvbs/hien-thi.jsp").forward(req, resp);
     }
 
     private void xoaBacSi(HttpServletRequest req, HttpServletResponse resp) throws IOException {
