@@ -16,7 +16,9 @@ import java.io.IOException;
         "/bac-si/view-update", // GET
         "/bac-si/them", // POST
         "/bac-si/sua", // POST
-        "/bac-si/xoa" // GET
+        "/bac-si/xoa", // GET
+        "/bac-si/tim-kiem", // GET
+        "/bac-si/phan-trang", // GET
 })
 public class BvbsController extends HttpServlet {
     BvbsRepository bvbsRepository = new BvbsRepository();
@@ -30,7 +32,29 @@ public class BvbsController extends HttpServlet {
             viewUpdate(req, resp);
         } else if(uri.contains("xoa")) {
             xoaBacSi(req, resp);
+        } else if(uri.contains("tim-kiem")) {
+            timKiem(req, resp);
+        } else if(uri.contains("phan-trang")) {
+            phanTrang(req, resp);
         }
+    }
+    private void phanTrang(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int page = 0;
+        int pageSize = 2;
+        if(req.getParameter("page") != null) {
+            page = Integer.valueOf(req.getParameter("page"));
+        }
+        req.setAttribute("listBacSi", bvbsRepository.phanTrang(page, pageSize));
+        req.setAttribute("listBenhVien", bvbsRepository.getAllBenhVien());
+        req.setAttribute("page", page);
+        req.getRequestDispatcher("/bvbs/hien-thi.jsp").forward(req, resp);
+    }
+
+    private void timKiem(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String tenBacSi = req.getParameter("tenBacSi");
+        req.setAttribute("listBacSi", bvbsRepository.timKiemTheoTen(tenBacSi));
+        req.setAttribute("listBenhVien", bvbsRepository.getAllBenhVien());
+        req.getRequestDispatcher("/bvbs/hien-thi.jsp").forward(req, resp);
     }
 
     private void xoaBacSi(HttpServletRequest req, HttpServletResponse resp) throws IOException {

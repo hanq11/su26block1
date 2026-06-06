@@ -12,7 +12,13 @@
     <title>Title</title>
 </head>
 <body>
-    Them bac si:
+    Tim kiem theo ten:
+    <form action="/bac-si/tim-kiem" method="get">
+        Ten bac si: <input type="text" name="tenBacSi"> <br>
+        <button>Search</button>
+    </form>
+    <br>
+    Them bac si
     <form action="/bac-si/them" method="post">
         Ten bac si: <input type="text" name="tenBacSi"> <br>
         Tuoi: <input type="text" name="tuoi"> <br>
@@ -55,5 +61,7 @@
             </tr>
         </c:forEach>
     </table>
+    <a href="/bac-si/phan-trang?page=${page - 1}">Prev</a>
+    <a href="/bac-si/phan-trang?page=${page + 1}">Next</a>
 </body>
 </html>
